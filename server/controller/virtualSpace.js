@@ -31,7 +31,8 @@ const getLocations = async (req, res) => {
                 address,
                 city,
                 state,
-                zip
+                zip,
+                image
             FROM locations
             ORDER BY name ASC
         `);
@@ -53,7 +54,8 @@ const getLocation = async (req, res) => {
                 address,
                 city,
                 state,
-                zip
+                zip,
+                image
             FROM locations
             WHERE id = $1
         `, [locationId]);
@@ -66,8 +68,32 @@ const getLocation = async (req, res) => {
     }
 }
 
+const getEventsByLocationId = async (req, res) => {
+    const locationId = req.params.locationId;
+    try {
+        const eventsData = await pool.query(`
+            SELECT
+                id,
+                title,
+                date,
+                time,
+                image,
+                locationID
+            FROM events
+            WHERE locationID = $1
+            ORDER BY date ASC
+        `, [locationId])
+
+        res.status(200).json(eventsData.rows)
+    }
+    catch(err) {
+        res.status(409).json({ error: err.message });
+    }
+}
+
 export default {
     getEvents,
     getLocations,
-    getLocation
+    getLocation,
+    getEventsByLocationId
 }
