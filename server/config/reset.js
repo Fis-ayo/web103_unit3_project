@@ -13,7 +13,8 @@ const createTables = async () => {
             address VARCHAR(255) NOT NULL,
             city VARCHAR(255) NOT NULL,
             state VARCHAR(255) NOT NULL,
-            zip VARCHAR(255) NOT NULL
+            zip VARCHAR(255) NOT NULL,
+            image VARCHAR(255) NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS events (
@@ -33,9 +34,9 @@ const createTables = async () => {
 const seedLocations = async () => {
     await Promise.all(virtualSpaceData.locationsData.map( async (location) => {
         await pool.query(`
-            INSERT INTO locations (name, address, city, state, zip)
-            VALUES ($1, $2, $3, $4, $5)
-        `, [location.name, location.address, location.city, location.state, location.zip])
+            INSERT INTO locations (name, address, city, state, zip, image)
+            VALUES ($1, $2, $3, $4, $5, $6)
+        `, [location.name, location.address, location.city, location.state, location.zip, location.image])
     }));
     console.log('Locations seeded successfully');
 }
