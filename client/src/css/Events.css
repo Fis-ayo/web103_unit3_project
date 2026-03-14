@@ -1,0 +1,23 @@
+.events main {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.events main i {
+    margin-right: 10px;
+}
+.events header {
+    display: flex;
+    width: 100%;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-events-btn {
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+}
