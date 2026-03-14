@@ -1,7 +1,8 @@
 import './dotenv.js';
 import { pool } from './database.js';
+import virtualSpaceData from '../data/virtualSpace.js';
 
-const resetDatabase = async () => {
+const createTables = async () => {
     const createTablesQuery = `
         DROP TABLE IF EXISTS events;
         DROP TABLE IF EXISTS locations;
@@ -25,10 +26,37 @@ const resetDatabase = async () => {
             FOREIGN KEY (locationID) REFERENCES locations(id)
         );
     `;
+    await pool.query(createTablesQuery);
+    console.log('Database tables created successfully');
+}
 
+const seedLocations = async () => {
+    await Promise.all(virtualSpaceData.locationsData.map( async (location) => {
+        await pool.query(`
+            INSERT INTO locations (name, address, city, state, zip)
+            VALUES ($1, $2, $3, $4, $5)
+        `, [location.name, location.address, location.city, location.state, location.zip])
+    }));
+    console.log('Locations seeded successfully');
+}
+
+
+const seedEvents = async () => {
+    await Promise.all(virtualSpaceData.eventsData.map(async (event) => {
+        await pool.query(`
+            INSERT INTO events (title, date, time, image, locationID)
+            VALUES ($1, $2, $3, $4, $5)
+        `, [event.title, event.date, event.time, event.image, event.locationID]);
+    }));
+    console.log('Events seeded successfully');
+}
+
+const resetDatabase = async () => {
     try {
-        await pool.query(createTablesQuery);
-        console.log('Database reset successfully');
+        await createTables();
+        await seedLocations();
+        await seedEvents();
+        console.log('Database reset and seeded completely 🚀');
     } catch(err) {
         console.error('Error resetting database:', err);
     }
