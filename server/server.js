@@ -3,6 +3,7 @@ import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
 import spaceRouter from './routes/virtualSpace.js'
+import cors from 'cors'
 
 
 dotenv.config()
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 3000
 
 const app = express()
 
-app.use('/api', spaceRouter)
+app.use(cors())
 
 if (process.env.NODE_ENV === 'development') {
     app.use(favicon(path.resolve('../', 'client', 'public', 'party.png')))
@@ -21,7 +22,7 @@ else if (process.env.NODE_ENV === 'production') {
     app.use(express.static('public'))
 }
 
-// specify the api path for the server to use
+app.use('/api', spaceRouter)
 
 
 if (process.env.NODE_ENV === 'production') {
