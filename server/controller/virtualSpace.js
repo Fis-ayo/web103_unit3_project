@@ -11,7 +11,7 @@ const getEvents = async (req, res) => {
                 image,
                 locationID
             FROM events
-            ORDER BY date ASC;
+            ORDER BY date ASC
         `);
 
         res.status(200).json(eventsData.rows);
@@ -22,7 +22,8 @@ const getEvents = async (req, res) => {
 
 }
 
-const getLocations = async (req, res) => {
+const getLocation = async (req, res) => {
+    const locationId = req.params.locationId;
     try{
         const locationsData = await pool.query(`
             SELECT
@@ -32,18 +33,19 @@ const getLocations = async (req, res) => {
                 city,
                 state,
                 zip
-            FROM locations;
-        `);
+            FROM locations
+            WHERE id = $1
+        `, [locationId]);
 
-        res.status(200).json(locationsData.rows);
+        res.status(200).json(locationsData.rows[0]);
 
     }
     catch(err) {
-        res.status(500).json({ error: err.message });
+        res.status(409).json({ error: err.message });
     }
 }
 
 export default {
     getEvents,
-    getLocations
+    getLocation
 }
