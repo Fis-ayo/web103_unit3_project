@@ -37,10 +37,10 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented required features:
 
-
+https://submissions.us-east-1.linodeobjects.com/web103/lffyzils.gif
 
 <!-- Replace this with whatever GIF tool you used! -->
-GIF through - Screen record
+GIF through
 <!-- Recommended tools:
 [Kap](https://getkap.co/) for macOS
 [ScreenToGif](https://www.screentogif.com/) for Windows
