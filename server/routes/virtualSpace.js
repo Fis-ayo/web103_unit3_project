@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/events', spaceController.getEvents);
 router.get('/locations', spaceController.getLocations);
-router.get('/:locationId', spaceController.getLocation);
+router.get('/location/:locationId', spaceController.getLocation);
+router.get('/location/:locationId/events', spaceController.getEventsByLocationId);
 
 export default router;
