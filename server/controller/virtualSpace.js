@@ -22,6 +22,27 @@ const getEvents = async (req, res) => {
 
 }
 
+const getLocations = async (req, res) => {
+    try{
+        const locationsData = await pool.query(`
+            SELECT
+                id,
+                name,
+                address,
+                city,
+                state,
+                zip
+            FROM locations
+            ORDER BY name ASC
+        `);
+
+        res.status(200).json(locationsData.rows);
+    }
+    catch(err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 const getLocation = async (req, res) => {
     const locationId = req.params.locationId;
     try{
@@ -47,5 +68,6 @@ const getLocation = async (req, res) => {
 
 export default {
     getEvents,
+    getLocations,
     getLocation
 }
